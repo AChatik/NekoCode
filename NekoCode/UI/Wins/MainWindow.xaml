@@ -1,0 +1,276 @@
+﻿<Window x:Name="MainWin" x:Class="NekoCode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:NekoCode.UI.Controls"
+        xmlns:local="clr-namespace:NekoCode"
+        mc:Ignorable="d"
+        Drop="Nekode_Drop"
+        Title="NekoCode" Height="700" Width="1200" MinWidth="370" MinHeight="200" Loaded="MainWin_Loaded" LayoutUpdated="MainWin_LayoutUpdated" AllowDrop="True" Closed="MainWin_Closed" WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.OpenNewShortcut}" Executed="OpenNewShortcut_Executed"/>
+    </Window.CommandBindings>
+    <Window.Resources>
+        <ResourceDictionary x:Name="CurrentTheme">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Wins/Themes/NightTheme/theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource WindowStyle}"/>
+    </Window.Style>
+    <Grid x:Name="BodyGrid" Style="{DynamicResource GridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="31*" MinWidth="200"/>
+            <ColumnDefinition Width="10*" MinWidth="200"/>
+        </Grid.ColumnDefinitions>
+        <!--<Image Grid.ColumnSpan="10" Grid.RowSpan="10" Source="/bg.jpg" Opacity="0.1" Stretch="UniformToFill" />
+        -->
+        <!--<Grid Grid.ColumnSpan="999" Grid.RowSpan="999" Background="#0000" x:Name="NekodeLayout" Panel.ZIndex="999" AllowDrop="False" IsHitTestVisible="False" AutomationProperties.IsOffscreenBehavior="Onscreen">
+            <StackPanel Style="{DynamicResource StackPanelStyle}" Opacity="0.5" x:Name="NekodeMessages" Height="180" Width="192" Canvas.Left="762" Canvas.Top="90" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="746,104,0,0">
+                <Label Content="All tasks finished nya~" Style="{DynamicResource LabelStyle}" Foreground="{DynamicResource FontColor}"/>
+            </StackPanel>
+        </Grid>-->
+        <Menu Height="25" FontSize="14" Grid.ColumnSpan="10" VerticalAlignment="Top" Style="{DynamicResource MenuStyle}">
+            <MenuItem Header="NekoEditor" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Open new" Click="OpenNewFileInNekoEditor" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Open..." Click="OpenFileInNekoEditor" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+            <MenuItem Header="Settings" x:Name="SettingsMenuItem" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Language" x:Name="LanguagesMenuItem" Style="{DynamicResource MenuItemStyle}">
+                    <MenuItem Header="EN" Click="SetENLanguage" Style="{DynamicResource MenuItemStyle}"/>
+                    <MenuItem Header="RU" Click="SetRULanguage" Style="{DynamicResource MenuItemStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Theme" x:Name="ThemeMenuItem" Style="{DynamicResource MenuItemStyle}">
+                    <MenuItem Header="Night" Click="SetNightTheme_Click" HorizontalContentAlignment="Center" Style="{DynamicResource MenuItemStyle}" Foreground="Gold">
+                        <MenuItem.Background>
+                            <ImageBrush ImageSource="/UI/Wins/Themes/NightTheme/MenuItemBG.png"/>
+                        </MenuItem.Background>
+                    </MenuItem>
+                    <MenuItem Header="Cute" Click="SetCuteTheme_Click" HorizontalContentAlignment="Center" Style="{DynamicResource MenuItemStyle}" Foreground="DarkRed" FontWeight="Bold" FontSize="13">
+                        <MenuItem.Background>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="/UI/Wins/Themes/CuteTheme/MenuItemBG.png"/>
+                        </MenuItem.Background>
+                    </MenuItem>
+                    <MenuItem Style="{DynamicResource MenuItemStyle}" Header="1C" FontWeight="Bold" FontSize="13" Foreground="#fd0000" Click="Set1СTheme_Click">
+                        <MenuItem.Background>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="0,1">
+                                <GradientStop Color="#FFCAB540"/>
+                                <GradientStop Color="#FFF1E7B7" Offset="1"/>
+                                <GradientStop Color="#FFECE307" Offset="0.4"/>
+                                <GradientStop Color="#FFECE307" Offset="0.6"/>
+                            </LinearGradientBrush>
+                        </MenuItem.Background>
+
+                    </MenuItem>
+                    <MenuItem Style="{DynamicResource MenuItemStyle}" HorizontalContentAlignment="Center" Click="SetCoffeeTheme_Click" >
+                        <MenuItem.Header>
+                            <Border CornerRadius="7" Background="#FF44250B" Height="18" VerticalAlignment="Center">
+                                <Label Content="Coffee" Foreground="#FFF" Padding="7,1,7,1" Margin="0" VerticalAlignment="Center"/>
+                            </Border>
+                        </MenuItem.Header>
+                        <MenuItem.Background>
+                            <ImageBrush ImageSource="/UI/Wins/Themes/CoffeeTheme/MenuItemBG.png" Stretch="UniformToFill" TileMode="None"/>
+                        </MenuItem.Background>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Debug" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Save" Click="Save_Click" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Dialogues" Style="{DynamicResource MenuItemStyle}">
+                    <MenuItem Header="FirstRun" Click="MenuItemRunDialogue_FirstRun_Click" Style="{DynamicResource MenuItemStyle}"/>
+                    <MenuItem Header="Random start" Click="AddRandomStartDialogueMenuItem_Click" Style="{DynamicResource MenuItemStyle}"/>
+                    <MenuItem Header="Random 1" Click="MenuItemRunDialogue_RandomDialogue1_Click" Style="{DynamicResource MenuItemStyle}"/>
+                </MenuItem>
+                <MenuItem Header="Brain" Style="{DynamicResource MenuItemStyle}">
+                    <MenuItem Header="Add task" Style="{DynamicResource MenuItemStyle}">
+                        <MenuItem Header="Clear memory trash" Click="MenuItemBrainTask_ClearMemoryTrash_Click" Style="{DynamicResource MenuItemStyle}"/>
+                        <MenuItem Header="Analyse memory" Click="MenuItemBrainTask_AnalyseMemory_Click" Style="{DynamicResource MenuItemStyle}"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Reset settings" Style="{DynamicResource MenuItemStyle}" Click="ResetSettingsMenuItem_Click"/>
+                <MenuItem Header="Reboot" Style="{DynamicResource MenuItemStyle}" Click="RebootMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <!--<GridSplitter Grid.Column="1" Style="{DynamicResource SplitterStyle}" x:Name="ConsoleAreaAndNekodeAreaSplitter" Grid.Row="1" HorizontalAlignment="Left" Width="5" VerticalAlignment="Stretch" Cursor="SizeWE" />-->
+        <Grid Grid.Column="0" x:Name="ConsoleArea" Cursor="" Grid.Row="1" Style="{DynamicResource GridStyle}" Margin="20,0,0,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="19*" MinHeight="150"/>
+                <RowDefinition Height="3*" MinHeight="80"/>
+            </Grid.RowDefinitions>
+
+
+            <GridSplitter Style="{DynamicResource ResourceKey=SplitterStyle}" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Height="5" Cursor="SizeNS" Margin="20,0,20,0" Grid.Row="1"/>
+
+            <TextBlock Text="NekoConsole" Margin=" 10,10,0,0" FontSize="16" FontFamily="Comic Sans MS" FontWeight="Bold" Foreground="{DynamicResource SpecialColor}" Grid.ColumnSpan="2"/>
+            <ScrollViewer Grid.Row="0" Style="{DynamicResource ScrollViewerStyle}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="10,35,10,10" Background="White" Grid.ColumnSpan="2">
+                <StackPanel Style="{DynamicResource StackPanelStyle}" x:Name="NekoConsole" Margin="10,10,10,10"/>
+            </ScrollViewer>
+            <Grid x:Name="HintPanel" MinHeight="40" MinWidth="180" MaxHeight="100" MaxWidth="460" IsHitTestVisible="False" Margin="0,-50,10,0" Panel.ZIndex="10" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Opacity="0.8">
+                <Border Background="{DynamicResource BodySpecialColor}" CornerRadius="{DynamicResource CornerRadius}" BorderThickness="3" BorderBrush="{DynamicResource SpecialColor}">
+                    <TextBlock x:Name="HintMessageeText" Text="Hint message" TextWrapping="Wrap" Style="{DynamicResource TextBlockStyle}" Padding="5" VerticalAlignment="Center" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+            <TextBox Style="{DynamicResource TextBoxStyle}" PreviewKeyDown="InputTextBox_KeyDown" BorderBrush="{DynamicResource SpecialColor}" x:Name="InputTextBox" Grid.Row="1" Margin="10,15,10,10" KeyDown="InputTextBox_KeyDown" FontSize="16" Foreground="{DynamicResource FontColor}" BorderThickness="3,3,3,3" Grid.ColumnSpan="2"/>
+            <Border CornerRadius="{DynamicResource CornerRadius}" BorderThickness="3" Padding="10,0,10,0" BorderBrush="{DynamicResource SpecialColor}" x:Name="RecentCommandsPanel" Margin="20,10" Width="400" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Bottom"  MinHeight="40" MaxHeight="80">
+                <ScrollViewer x:Name="RecentCommandsScrollViewer"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Style="{DynamicResource StackPanelStyle}" x:Name="RecentCommandsStackPanel">
+                        <TextBlock Text="RECENT COMMAND1" Opacity="0.4" Height="20"/>
+                        <TextBlock Text="RECENT COMMAND2" Background="{DynamicResource BodySpecialColor}"/>
+                        <TextBlock Text="RECENT COMMAND3" Opacity="0.4"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+        </Grid>
+
+        <Grid Grid.Column="0" HorizontalAlignment="Left" Width="20" x:Name="ProjectsArea" Background="{DynamicResource BodySpecialColor}" Margin="0,0,0,0" Grid.Row="1">
+
+            <Grid.Effect>
+                <DropShadowEffect Direction="0" ShadowDepth="0" BlurRadius="30" Color="Black" Opacity="0.4"/>
+            </Grid.Effect>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" AutoReverse="False" To="300" Duration="0:0:0.5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width" To="20" Duration="0:0:0.5" AutoReverse="False">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Border CornerRadius="7" HorizontalAlignment="Right" Margin="0,0,-5,0" Height="150" Width="25" Background="{DynamicResource BodySpecialColor}" >
+                <Label Content=">" HorizontalAlignment="Right"  VerticalContentAlignment="Center"  VerticalAlignment="Center" Foreground="{DynamicResource InfoFontColor}"/>
+            </Border>
+            <Label HorizontalAlignment="Right" Margin="0,20,0,0" HorizontalContentAlignment="Center" Width="300" Content="My projects:"  FontSize="24" Foreground="{DynamicResource InfoFontColor}" Style="{DynamicResource LabelStyle}" RenderTransformOrigin="0.5,0.5"/>
+            <Border CornerRadius="7" HorizontalAlignment="Right" Margin="10,60,10,10" Width="280" Background="{DynamicResource BodyColor}" VerticalAlignment="Stretch" >
+                <StackPanel x:Name="LastProjectsStackPanel"  CanVerticallyScroll="True" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="300"/>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="NekodeArea" Panel.ZIndex="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" MinHeight="200"/>
+                <RowDefinition Height="3*" MinHeight="150"/>
+            </Grid.RowDefinitions>
+            <GridSplitter Style="{DynamicResource ResourceKey=SplitterStyle}" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Height="5" Cursor="SizeNS" Margin="20,5,20,0" Grid.Row="1"/>
+            <TextBlock Text="Nekode offline" Visibility="Collapsed" Foreground="{DynamicResource InfoFontColor}" x:Name="NekodeOfflineText" Opacity="0.6" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Image Style="{DynamicResource NekodeImageStyle}" Visibility="Visible" Margin="5,5,5,5" Grid.Row="0" AllowDrop="True" Drop="Nekode_Drop" Panel.ZIndex="4" Source="/UI/Wins/Rosources/Images/NekodeSprites/test.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.494,0.363" >
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="50" ShadowDepth="0" RenderingBias="Quality" Color="#FF754F55"/>
+                </Image.Effect>
+            </Image>
+            <Grid Grid.Row="1" Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="93*" MinHeight="100"/>
+                    <RowDefinition Height="229*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5,5,5,5">
+
+                    <ProgressBar x:Name="AffinityProgressBar" Style="{DynamicResource ProgressBarStyle}" Grid.Row="1" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,5,5,5" Foreground="#FFFFBEE8" Value="50" Maximum="200"/>
+                    <Label x:Name="AffinityLabel" Content="Affinity: 50.0" FontSize="12" FontFamily="Comic Sans MS" Foreground="#FF610B56" Margin="5,2,5,5"/>
+                    <Rectangle Grid.Row="1" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top" Width="2" Margin="5,5,5,5" Fill="#26000000"/>
+
+                    <ProgressBar x:Name="StaminaProgressBar" Style="{DynamicResource ProgressBarStyle}" Grid.Row="1" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,30,5,5" Foreground="#FFA2D1EF" Value="50">
+                    </ProgressBar>
+                    <Label x:Name="StaminaLabel" Content="Stamina: 50.0" FontSize="12" FontFamily="Comic Sans MS" Foreground="#FF610B56" Margin="5,26,5,5"/>
+
+                    <ProgressBar x:Name="SpeedProgressBar" Style="{DynamicResource ProgressBarStyle}" Grid.Row="1" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,55,5,5" Foreground="#FFD0FFBB" Maximum="25" Value="20"/>
+                    <Label x:Name="SpeedLabel" Content="Delay: 0.1s." FontSize="12" FontFamily="Comic Sans MS" Foreground="#FF610B56" Margin="5,50,5,5"/>
+                </Grid>
+                <Border Margin="10,15,5,10" Grid.Row="1" CornerRadius="{DynamicResource CornerRadius}" BorderBrush="{DynamicResource SpecialColor}" BorderThickness="3" Background="{DynamicResource BodySpecialColor}">
+                    <TextBlock Style="{DynamicResource TextBlockStyle}" x:Name="TaskCountInfoTextBlock" Padding="10" Text="My tasks: " FontSize="14"/>
+                </Border>
+
+            </Grid>
+        </Grid>
+        <Grid IsHitTestVisible="True" Panel.ZIndex="999" Grid.ColumnSpan="999" Grid.RowSpan="999" x:Name="GlobalOverlay">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="31*" MinWidth="200"/>
+                <ColumnDefinition Width="10*" MinWidth="200"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid x:Name="DialoguePanel" Opacity="0.95" VerticalAlignment="Top" MinWidth="650" MaxWidth="850" Width="850" MinHeight="160" ClipToBounds="True" HorizontalAlignment="Right" Margin="0,80,-20,0">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="30" Direction="0" ShadowDepth="0" Opacity="0.5"/>
+                </Grid.Effect>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition  Width="450"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition MinHeight="95"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" VerticalAlignment="Stretch" x:Name="DialogueCodeExampleRoot" CornerRadius="20,0,0,20" Background="{DynamicResource BodySpecialColor}" HorizontalAlignment="Right" MinWidth="200" MaxWidth="400" ClipToBounds="True" Margin="-20,0" Padding="20,0">
+                    <StackPanel>
+                        <TextBlock Text="NekoEditor" HorizontalAlignment="Center" Foreground="{DynamicResource SpecialColor}"/>
+                        <ScrollViewer x:Name="DialogueCodeExampleScrollViewer" HorizontalScrollBarVisibility="Hidden" CanContentScroll="True" VerticalAlignment="Stretch" MaxHeight="280" VerticalScrollBarVisibility="Hidden">
+                            <StackPanel x:Name="DialogueCodeExampleStackPanel">
+                                <TextBlock FontSize="12">
+                                            <Run Text="Line1"/>
+                                </TextBlock>
+                                <TextBlock  FontSize="12">
+                                            <Run Text="Line2"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </StackPanel>
+
+                </Border>
+                <Border Grid.Column="2" Padding="0,0" CornerRadius="20" BorderThickness="3" MaxHeight="300" BorderBrush="{DynamicResource SpecialColor}" Background="{DynamicResource BodySpecialColor}">
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden" >
+                        <StackPanel Margin="20,0" x:Name="DialogueConsole" VerticalAlignment="Center"/>
+                    </ScrollViewer>
+                </Border>
+                <ProgressBar Grid.Column="2" x:Name="DialoguePanelShowTimeProgressBar" Grid.Row="1" Panel.ZIndex="-1" Style="{DynamicResource ProgressBarStyle}" Foreground="{DynamicResource InfoFontColor}" Value="100" Visibility="Visible" Opacity="0.7" VerticalAlignment="Top" Height="15" Margin="30,-10,30,0" >
+                </ProgressBar>
+                <Grid Grid.Column="2" Grid.Row="1" MinHeight="90" Margin="5,5,5,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="120" x:Name="DialoguePanelNextButtonAreaColumn"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Click="DialogueNext" x:Name="DialoguePanelNextButton" Style="{DynamicResource ButtonStyle}" Content="> > >" VerticalAlignment="Top" FontSize="20" Width="100" Height="40" HorizontalAlignment="Left" Grid.Column="2"/>
+                    <WrapPanel x:Name="DialoguePanelButtonsArea" Panel.ZIndex="10" MinHeight="45" ScrollViewer.HorizontalScrollBarVisibility="Hidden"/>
+                </Grid>
+
+            </Grid>
+
+            <Grid Background="#F000" Visibility="Collapsed" Grid.RowSpan="999" Grid.ColumnSpan="999" Opacity="0" x:Name="RebootOverlay">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <TextBlock x:Name="RebootHeader" Text="Rebooting system..." FontSize="40" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="RebootDescription" Text="Nekode needs to be restarted" Opacity="0.5" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

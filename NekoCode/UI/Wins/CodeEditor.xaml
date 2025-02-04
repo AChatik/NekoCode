@@ -1,0 +1,88 @@
+﻿<Window x:Class="NekoCode.CodeEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NekoCode"
+        mc:Ignorable="d"
+        ShowInTaskbar="True"
+        Title="NekoEditor" Height="600" Width="1200" LayoutUpdated="Window_LayoutUpdated" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:CodeEditor.InsertNewSkillShortcut}" Executed="InsertNewSkill"/>
+        <CommandBinding Command="{x:Static local:CodeEditor.SaveShortcut}" Executed="Save"/>
+        <CommandBinding Command="{x:Static local:CodeEditor.CalculateProductionsShortcut}" Executed="CalculateProductionsMenuItem_Click"/>
+        <CommandBinding Command="{x:Static local:CodeEditor.RunShortcut}" Executed="RunMenuItem_Click"/>
+    </Window.CommandBindings>
+    <Window.Resources>
+        <ResourceDictionary x:Name="CurrentTheme">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Wins/Themes/NightTheme/theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource WindowStyle}"/>
+    </Window.Style>
+    <Grid Style="{DynamicResource GridStyle}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "30"/>
+            <RowDefinition Height = "*"/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="ToolMenu" Margin="0,0,0,0" Style="{DynamicResource MenuStyle}" VerticalAlignment="Top" Height="30" Grid.Row="0" FontFamily="Comic Sans MS" FontSize="16">
+
+            <MenuItem Header="File" Click="MenuItem_Click" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Save" Click="Save" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Save as" Click="SaveAs" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+            <MenuItem Header="Tools" Click="MenuItem_Click" Style="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="New skill (alt+s)" Click="InsertNewSkill" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Feeder" Click="InsertFeeder" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+            <MenuItem x:Name="StaminaProductionMenuItem" Header="Stamina production: ?" Foreground="{DynamicResource StaminaColor}" Style="{DynamicResource MenuItemStyle}"/>
+            <MenuItem x:Name="AffinityProductionMenuItem" Header="Affinity production: ?" Foreground="{DynamicResource AffinityColor}" Style="{DynamicResource MenuItemStyle}"/>
+            <MenuItem Header="Debug">
+                <MenuItem Header="Run (F5)" x:Name="RunMenuItem" Click="RunMenuItem_Click" Style="{DynamicResource MenuItemStyle}"/>
+                <MenuItem Header="Calculate productions (ctrl+r)" x:Name="CalculateProductionsMenuItem" Click="CalculateProductionsMenuItem_Click" Style="{DynamicResource MenuItemStyle}"/>
+            </MenuItem>
+            <CheckBox x:Name="EnableHighlights" Content="Highlights" Foreground="{DynamicResource InfoFontColor}" VerticalAlignment="Center" IsChecked="True" Checked="EnableHighlights_Checked" Unchecked="EnableHighlights_Unchecked" Style="{DynamicResource CheckBoxStyle}"/>
+        </Menu>
+        <ScrollViewer  Padding="0" Grid.Row="1" Margin="5,5,5,5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+            <Border CornerRadius="{DynamicResource CornerRadius}">
+                <Grid Style="{DynamicResource GridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border CornerRadius="{DynamicResource CornerRadius}">
+                        <Grid Style="{DynamicResource GridStyle}" Background="{DynamicResource BodySpecialColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border CornerRadius="{DynamicResource CornerRadius}">
+                                <TextBlock x:Name="StaminaCodeLines" TextAlignment="Center" Margin="0,6,5,0" Grid.Column="0" Text="-3.12" FontFamily="Comic Sans MS" FontSize ="16" Foreground="{DynamicResource StaminaColor}"/>
+                            </Border>
+                            <Border CornerRadius="{DynamicResource CornerRadius}" Grid.Column="1">
+                                <TextBlock x:Name="AffinityCodeLines" TextAlignment="Center" Margin="0,6,5,0" Grid.Column="1" Text="+4" FontFamily="Comic Sans MS" FontSize ="16" Foreground="{DynamicResource AffinityColor}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock x:Name="CodeLines" TextAlignment="Center" Margin="5,6,5,5" Grid.Column="1" Text="123" FontFamily="Comic Sans MS" FontSize ="16"/>
+                    <Grid x:Name="CodeArea" Margin="5,5,5,5" Grid.Column="2" Background="{DynamicResource BodyColor}" Style="{DynamicResource GridStyle}">
+                        <!--<TextBlock x:Name="CodeHighlights" Text="@neko" FontFamily="Comic Sans MS" FontSize="16" Margin="3,1,0,0" GotFocus="CodeHighlights_GotFocus" Focusable="True" LayoutUpdated="CodeHighlights_LayoutUpdated"/> -->
+                        <TextBox Padding="0" Style="{DynamicResource TextBoxStyle}" x:Name="CodeTextBox" Opacity="100" Text="@neko" FontFamily="Comic Sans MS" FontSize="16" KeyDown="CodeTextBox_KeyDown" KeyUp="CodeTextBox_KeyUp" Focusable="True" IsManipulationEnabled="True" LayoutUpdated="CodeTextBox_LayoutUpdated" LostFocus="CodeTextBox_LostFocus" TextChanged="CodeTextBox_TextChanged" Foreground="{x:Null}" Background="{x:Null}"/>
+                    </Grid>
+                
+                </Grid>
+            </Border>
+
+
+
+        </ScrollViewer>
+
+    </Grid>
+</Window>

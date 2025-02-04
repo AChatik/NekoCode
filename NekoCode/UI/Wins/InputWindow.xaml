@@ -1,0 +1,32 @@
+﻿<Window x:Class="NekoCode.InputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NekoCode"
+        mc:Ignorable="d"
+        Title="InputWindow" Height="200" Width="700"
+        FontFamily="Comic Sans MS"
+        FontSize="16" WindowStartupLocation="CenterScreen" ShowInTaskbar="True">
+    <Window.Resources>
+        <ResourceDictionary x:Name="CurrentTheme">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Wins/Themes/NightTheme/theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource WindowStyle}"/>
+    </Window.Style>
+    <Grid Style="{DynamicResource GridStyle}">
+        <StackPanel Margin="5,5,5,5" Style="{DynamicResource StackPanelStyle}">
+            <ScrollViewer Style="{DynamicResource ResourceKey=ScrollViewerStyle}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" >
+                <Label Content="Message" x:Name="MessageLabel" Foreground="{DynamicResource InfoFontColor}"/>
+            </ScrollViewer>
+
+            <TextBox Style="{DynamicResource TextBoxStyle}" Foreground="{DynamicResource FontColor}" TextWrapping="Wrap" Text="Simple teeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeext " x:Name="InputTextBox" HorizontalAlignment="Stretch" Margin="5,15,5,5" KeyDown="InputTextBox_KeyDown"/>
+
+
+        </StackPanel>
+    </Grid>
+</Window>
