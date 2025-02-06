@@ -1,1 +1,177 @@
-<h1>NekoCode's website</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NekoCode — Загрузка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neko-purple: #c17dff;
+            --neko-pink: #ff7dc7;
+            --neko-blue: #7dcbff;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .cyber-grid {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255, 125, 199, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 125, 199, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--neko-pink), var(--neko-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+            filter: drop-shadow(0 0 20px rgba(193, 125, 255, 0.3));
+        }
+
+        .download-block {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .download-block button {
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, var(--neko-pink), var(--neko-purple));
+            border: none;
+            border-radius: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 24px;
+        }
+
+        .download-block button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(193, 125, 255, 0.3);
+        }
+
+        .features-block {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 32px;
+            text-align: center;
+            min-height: 280px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            background: linear-gradient(45deg, var(--neko-blue), var(--neko-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .download-block, .feature-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <div class="container">
+        <header>
+            <h1>NekoCode</h1>
+        </header>
+
+
+
+        <div class="features-block">
+            <div class="feature-card">
+                <h3>🐾 Meet Nekode</h3>
+                <p>Your personal cat-girl assembler, that always glad to help you!<br>
+                <code>...you can pat her</code><br>
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎮 Neko IDE</h3>
+                <p>There are things that specifically designed for NekoCde to help you get started.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🌟 Unique expirience</h3>
+                <p>Nekode takes care of your comfort when using NekoCode.</p>
+            </div>
+            
+        </div>
+        <br>
+        <div class="download-block">
+            <h2>So, Let's get started</h2>
+            <p></p>
+            <button onclick="alert('Загрузка началась! 🐾')">Get NekoCode</button>
+        </div>
+    </div>
+
+    <script>
+        // Параллакс для сетки
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.querySelector('.cyber-grid').style.transform = 
+                `translate(${x * 20}px, ${y * 20}px)`;
+        });
+    </script>
+</body>
+</html>
